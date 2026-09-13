@@ -5,18 +5,16 @@ import re
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 
-# ================= СПИСКИ КЛАССИФИКАЦИИ ОПЕРАТОРОВ =================
-
-# 1. Слова-декларации (Полностью ИГНОРИРУЮТСЯ)
+# Слова-декларации
 PERL_IGNORE_WORDS = {
     "my", "our", "local", "state", "sub", "use", "no", "package", 
     "require", "strict", "warnings", "constant"
 }
 
-# 2. Управляющие операторы (переходы)
+# Управляющие операторы
 CONTROL_NO_PAREN = {"return", "last", "next", "redo", "goto", "continue", "default"}
 
-# 3. Составные операторы (if...elsif...else)
+# Составные операторы
 CHAIN_TRANSITIONS = {
     "if": {"elsif", "else"}, "unless": {"elsif", "else"}, "elsif": {"elsif", "else"},
     "try": {"catch", "finally"}, "catch": {"catch", "finally"}, "do": {"while", "until"},
@@ -25,17 +23,17 @@ CHAIN_TRANSITIONS = {
 }
 COMPOUND_KEYWORDS = set(CHAIN_TRANSITIONS.keys()) | {"else", "finally", "continue", "default"}
 
-# 4. Синтаксические скобки, которые НЕ считаются за ()
+# Синтаксические скобки, типо которые не считаются за ()
 SYNTACTIC_PAREN_KEYWORDS = {
     "if", "elsif", "unless", "while", "until", "for", "foreach", "given", "when", "catch"
 }
 
-# 5. Имена строковых и логических операций-слов (без скобок, аналог and/or/not/mod в Паскале)
+# Имена строковых и логических операций-слов (and/or/not/mod в Паскале)
 PERL_WORD_OPERATORS = {
     "eq", "ne", "cmp", "lt", "gt", "le", "ge", "and", "or", "not", "xor", "x"
 }
 
-# 6. Имена процедур и встроенных функций (считаются с постфиксом ())
+# Имена процедур и функций (с постфиксом ())
 PERL_BUILTIN_FUNCS = {
     "print", "printf", "sprintf", "die", "warn", "push", "pop", "shift", "unshift", 
     "pos", "substr", "defined", "undef", "eval", "chomp", "chop", "chr", "crypt",
